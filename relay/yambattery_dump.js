@@ -75,7 +75,7 @@ const HEADER="<tr><th>Date</th><th>Daycount</th><th style='width:300px'>10 Turns
 
 module.exports.main=function main(){
 	kol.writeln("<html><head><title>yam battery data dump</title>");
-	kol.writeln("<style>table{border-spacing:0px} tr:nth-child(even){background-color:#FFFFFF} tr:nth-child(odd){background-color:#DDDDDD} td{padding:2px 5px;vertical-align:top;text-align:center} td:nth-child(-n + 2){font-family:Courier New;text-align:right} .mods{color:blue;font-style:italic}</style>");
+	kol.writeln("<style>table{border-spacing:0px} tr:nth-child(even){background-color:#FFFFFF} tr:nth-child(odd){background-color:#DDDDDD} td{padding:2px 5px;vertical-align:top;text-align:center} td:nth-child(-n + 2){font-family:Courier New;text-align:right} .mods{color:blue;font-style:italic} a{color:black;text-decoration:none}</style>");
 	kol.writeln("<script>function scroll(){d=new Date('Mon Feb 10 2003');n=new Date();dc=Math.floor((n-d)/(1000*3600*24))-1;location.hash='#d'+dc;}</script>");
 	kol.writeln("</head>");
 	kol.writeln("<body onload='scroll()'><table>");
@@ -91,7 +91,6 @@ module.exports.main=function main(){
 		let rng=kol.phpSeed(seed);
 		let date=new Date(DATE_BASE.getTime());
 		date.setDate(date.getDate()+day);
-		//let line="<tr><td>"+date.toLocaleDateString("en-US",DATE_FORMAT_OPTIONS)+"</td><td>"+day;
 		let line="<tr><td>"+date.toDateString()+"</td><td><a name='d"+day+"'></a>"+day;
 		for(let i=0;i<3;i++){
 			let idx=kol.phpMtRand(rng,0,EFFECT_IDS.length);
@@ -102,7 +101,7 @@ module.exports.main=function main(){
 			let effect=kol.toEffect(effectId);
 			
 			line+="</td><td>";
-			line+=effect.name+"<br/><span class='mods'>"+kol.stringModifier(effect,"Modifiers").replaceAll(/\[.+?]/g,"??")+"</span>";
+			line+="<a href='"+kol.toWikiUrl(effect)+"'>"+effect.name+"</a><br/><span class='mods'>"+kol.stringModifier(effect,"Modifiers").replaceAll(/\[.+?]/g,"??")+"</span>";
 		}
 		line+="</td></tr>";
 		kol.writeln(line);
